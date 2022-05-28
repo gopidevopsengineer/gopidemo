@@ -1,0 +1,61 @@
+
+Setting Up Tomcat
+My setup.bat file
+(Again your Enviroment Variables should be set as below. I just use this .bat
+to run a copy of Tomcat on a flash drive, hence the %1 parameter, The drive letter is always different.)
+
+
+SET CLASSPATH=.;%1:\Java\jre1.8\lib\ext\*;%1:\Tomcat\lib\*;
+SET PATH=.;%1:\Java\jdk1.8\bin;%PATH%;
+SET JAVAHOME=%1:\Java\jdk1.8
+SET JRE_HOME=%1:\Java\jre1.8
+SET CATALINA_HOME=%1:\Tomcat
+
+My tomcat-users.xml file in Tomcat\conf
+You need this to get to the manager.
+
+
+<?xml version='1.0' encoding='utf-8'?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<tomcat-users xmlns="http://tomcat.apache.org/xml"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://tomcat.apache.org/xml tomcat-users.xsd"
+              version="1.0">
+    <role rolename="admin"/>
+    <role rolename="admin-gui"/>
+    <role rolename="admin-script"/>
+    <role rolename="manager-gui"/>
+    <role rolename="manager-script"/>
+    <role rolename="manager-jmx"/>
+    <user username="tomcat1" password="tomcat1" roles="admin-gui,admin-script"/>
+    <user username="tomcat" password="tomcat" roles="manager-gui,manager-script,manager-jmx" />
+</tomcat-users>
+
+In fact, this is overkill you could start with:
+
+<tomcat-users>
+<role rolename="manager-gui"/>
+<user username="tomcat" password="tomcat" roles="manager-gui"/>
+</tomcat-users>
+
+To check errors etc. use the Tomcat Window below or look at the appropriate catalina and localhost logs in Tomcat\logs
+Start Up
+
+Using the Tomcat Window -- I didn't put the MySQL driver .jar file
+in Tomcat\lib .
+To fix the runtime error, I copied it from my Java\jre1.8\lib\ext and restarted Tomcat
